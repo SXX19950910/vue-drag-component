@@ -10,7 +10,7 @@
     import {on, off} from '../utils/dom';
     import dragResize from './resize';
     import dragLine from './line'
-    import { throttle } from 'throttle-debounce';
+    import { throttle, debounce } from 'throttle-debounce';
     import _ from 'loadsh';
     export default {
         name: 'Drag',
@@ -186,6 +186,7 @@
                 moveInput: Function,
                 resizeInput: Function,
                 throttleMove: Function,
+                windowResize: Function,
                 dragging: false,
                 resizing: false
             };
@@ -205,6 +206,7 @@
                 return {
                     width: `${width}px`,
                     height: `${height}px`,
+                    // transform: `translate(${x}px, ${y}px)`,
                     top: `${y}px`,
                     left: `${x}px`,
                     userSelect: disableUserSelect ? 'none' : 'unset',
@@ -240,13 +242,15 @@
                 const { initWidth, initHeight } = this;
                 this.offsetLeft = left;
                 this.offsetTop = top;
-                this.x = this.left;
-                this.y = this.top;
+                if (this.left > 0) this.x = this.left + left;
+                if (this.top > 0) this.y = this.top + top;
                 this.defaultHeight = height;
                 this.defaultWidth = width;
                 this.moveInput = throttle(this.moveEmitDelay, this.handleInputMove);
                 this.resizeInput = throttle(this.resizeEmitDelay, this.handleInputResize);
                 this.throttleMove = throttle(200, this.handleMouseMove);
+                this.windowResize = debounce(200, this.initBasicData)
+                on(window, 'resize', this.windowResize);
                 if (initWidth > 0) this.width = this.initWidth;
                 if (initHeight > 0) this.height = this.initHeight;
                 this.validatorProps();
@@ -303,11 +307,18 @@
                 this.downOffsetTop = top;
 
             },
+            initBasicData() {
+                this.handleSetRect()
+                const {top, left, width, height} = this.$refs.drag.getBoundingClientRect();
+                this.defaultHeight = height;
+                this.defaultWidth = width;
+                this.downOffsetLeft = left;
+                this.downOffsetTop = top;
+            },
             clearAllListener() {
                 off(document, 'mouseup', this.handleResizeUp);
                 off(document, 'mouseup', this.handleMouseUp);
                 off(document, 'mousemove', this.handleMouseMove);
-                off(document, 'mousemove', this.handleResizeMove);
                 off(document, 'mousemove', this.handleResizeBrMove);
                 off(document, 'mousemove', this.handleResizeMrMove);
                 off(document, 'mousemove', this.handleResizeBmMove);
@@ -326,8 +337,8 @@
                 const filterClass = this.dragFilter;
                 const currentClass = e.path[0].className;
                 const nonActive = !this.active;
-                const isTarget = targetClass === '' || (currentClass === targetClass);
-                const nonFilter = filterClass === '' || (currentClass !== filterClass);
+                const isTarget = targetClass === '' || currentClass.includes(targetClass);
+                const nonFilter = filterClass === '' || !currentClass.includes(filterClass);
                 nonActive && this.handleSetActive(e);
                 if (isTarget && nonFilter) {
                     this.initLayoutScheme(e);

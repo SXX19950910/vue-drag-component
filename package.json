@@ -1,6 +1,6 @@
 {
   "name": "vue-drag-component",
-  "version": "0.1.1",
+  "version": "0.1.5",
   "private": false,
   "author": "SXX19950910 <916411582@qq.com>",
   "main": "dist/vueDragComponent.umd.min.js",
@@ -14,9 +14,12 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "highlight.js": "^10.1.2",
+    "install": "^0.13.0",
     "loadsh": "^0.0.4",
     "throttle-debounce": "^2.2.1",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-highlightjs": "^1.3.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.4.0",

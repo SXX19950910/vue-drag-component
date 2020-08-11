@@ -1,25 +1,14 @@
 <template>
-  <div id="app">
-    <div class="board-warp">
-      <vue-drag-component v-for="item in list" :key="item.id" :active.sync="item.active" :z="item.zIndex" :help-line="true" line-class="new-class-line" :init-height="100" :init-width="100" :grid="[100, 100]" drag-filter="test-1" :component-data="item" :left="400" :top="400" @active="onActive" @resize-stop="onResizeStop" @drag-stop="onDragStop" @dragging="onDragMove" @resizing="onResize">
-        <div class="demo">
-          点我可以拖拽
-          <div class="test-1">点我无法拖拽</div>
-          <div class="test-4">点我可以拖拽</div>
-          <div class="test-2">点我可以拖拽</div>
-        </div>
-      </vue-drag-component>
-    </div>
-  </div>
+  <demo />
 </template>
 
 <script>
   import { on } from '@/utils/dom.js'
-  import vueDragComponent from './components/drag'
+  import demo from './views/demo'
   export default {
     name: 'App',
     components: {
-      vueDragComponent
+      demo
     },
     data() {
       return {
@@ -61,6 +50,9 @@
 </script>
 
 <style lang="scss">
+  body {
+    overflow: hidden;
+  }
   * {
     margin: 0;
     padding: 0;
