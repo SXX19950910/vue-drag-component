@@ -1,5 +1,6 @@
 module.exports = {
-    publicPath: './',
+    outputDir: './build',
+    publicPath: './build',
     configureWebpack: {
         output: {
             libraryExport: 'default'

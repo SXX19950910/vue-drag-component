@@ -1,5 +1,9 @@
 # vue-drag-component
 > Vue component for draggable and resize element
+
+#### 预览 Preview
+https://sxx19950910.github.io/vue-drag-component
+
 #### 安装 Install
     npm i vue-drag-component -S
 #### 基本用法 Basic

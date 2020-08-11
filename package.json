@@ -1,6 +1,6 @@
 {
   "name": "vue-drag-component",
-  "version": "0.1.5",
+  "version": "0.1.8",
   "private": false,
   "author": "SXX19950910 <916411582@qq.com>",
   "main": "dist/vueDragComponent.umd.min.js",
